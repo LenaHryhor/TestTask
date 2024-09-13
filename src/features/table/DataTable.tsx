@@ -1,6 +1,6 @@
 import {
     Avatar,
-    Checkbox,
+    Checkbox, Stack,
     Table,
     TableBody,
     TableCell,
@@ -67,11 +67,6 @@ export function DataTable() {
     );
 }
 
-const InRow = styled.div`
-    display: flex;
-    align-items: center;
-`;
-
 function DataTableRow({row, onOperatorIsWorkingChange}: {
     row: Row,
     onOperatorIsWorkingChange: () => void
@@ -80,11 +75,11 @@ function DataTableRow({row, onOperatorIsWorkingChange}: {
         <TableRow>
             <BoldTableCell>{row.id}</BoldTableCell>
             <TableCell>
-                <InRow>
+                <Stack direction="row">
                     <Avatar alt={row.name} src={row.avatar}
                             sx={{marginRight: '1.5rem'}}/>
                     {row.name}
-                </InRow>
+                </Stack>
             </TableCell>
             <TableCell>
                 <Checkbox checked={row.isWorking}
