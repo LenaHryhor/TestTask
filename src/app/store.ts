@@ -1,10 +1,10 @@
-import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
-import dataTableReducer from "../features/table/dataTableSlice";
+import {configureStore} from '@reduxjs/toolkit';
+import ordersTableReducer from "../features/operators/ordersTableSlice";
 
 export const store = configureStore({
     reducer:
         {
-            dataTable: dataTableReducer,
+            ordersTable: ordersTableReducer,
         },
 });
 

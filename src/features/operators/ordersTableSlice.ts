@@ -1,29 +1,49 @@
 import {createAsyncThunk, createSelector, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "../../app/store";
-import {fetchOperators, fetchOperatorAddons, Operator, OperatorAddon} from './dataTableAPI';
+import {fetchOperatorAddons, fetchOperators, Operator, OperatorAddon} from './dataTableAPI';
 
-export interface DataTableState {
+export type Order = 'asc' | 'desc';
+
+export interface Pagination {
+    page: number;
+    rowsPerPage: number;
+}
+
+export interface Sorting {
+    sortBy: string;
+    order: Order;
+}
+
+export interface OperatorsTableState {
     operators: Operator [];
     operatorAddons: OperatorAddon [];
     status: 'idle' | 'loading' | 'failed';
-    page: number;
-    rowsPerPage: number;
     columns: Column[];
     rows: Row[];
+    pagination: Pagination;
+    sorting: Sorting;
+    searchTerm: string;
 }
 
-const initialState: DataTableState = {
+const initialState: OperatorsTableState = {
     operators: [],
     operatorAddons: [],
     status: 'idle',
-    page: 0,
-    rowsPerPage: 5,
+    rows: [],
     columns: [],
-    rows: []
+    pagination: {
+        page: 0,
+        rowsPerPage: 5,
+    },
+    sorting: {
+        sortBy: 'id',
+        order: 'asc',
+    },
+    searchTerm: '',
 };
 
 export const dataLoad = createAsyncThunk(
-    'table/fetchData',
+    'operators/fetchData',
     async () => {
         const [operators, operatorAddons] = await Promise.all([
             fetchOperators(),
@@ -33,8 +53,8 @@ export const dataLoad = createAsyncThunk(
     }
 );
 
-export const dataTableSlice = createSlice({
-    name: 'dataTable',
+export const ordersTableSlice = createSlice({
+    name: 'ordersTable',
     initialState,
     reducers: {
         setOperatorIsWorking: (state, action: PayloadAction<string>) => {
@@ -42,12 +62,20 @@ export const dataTableSlice = createSlice({
             if (operator) operator.isWorking = !operator.isWorking;
         },
         setPage: (state, action: PayloadAction<number>) => {
-            state.page = action.payload;
+            state.pagination.page = action.payload;
         },
         setRowsPerPage: (state, action: PayloadAction<number>) => {
-            state.rowsPerPage = action.payload;
-            state.page = 0;
+            state.pagination = {rowsPerPage: action.payload, page: 0};
         },
+        setOrder: (state, action: PayloadAction<Order>) => {
+            state.sorting.order = action.payload;
+        },
+        setSortBy: (state, action: PayloadAction<string>) => {
+            state.sorting.sortBy = action.payload;
+        },
+        setSearchTerm: (state, action: PayloadAction<string>) => {
+            state.searchTerm = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -109,20 +137,30 @@ export interface Row {
     fields: string[]
 }
 
-export const selectPage = (state: RootState) => state.dataTable.page;
-export const selectRowsPerPage = (state: RootState) => state.dataTable.rowsPerPage;
-export const selectAllRows = (state: RootState) => state.dataTable.rows;
-export const selectColumns = (state: RootState) => state.dataTable.columns;
+export const selectStatus = (state: RootState) => state.ordersTable.status;
+export const selectAllRows = (state: RootState) => state.ordersTable.rows;
+export const selectColumns = (state: RootState) => state.ordersTable.columns;
+
+export const selectPagination = (state: RootState) => state.ordersTable.pagination;
+export const selectSorting = (state: RootState) => state.ordersTable.sorting;
+export const selectSearchTerm = (state: RootState) => state.ordersTable.searchTerm;
 
 export const selectRows = createSelector(
-    [selectPage, selectRowsPerPage, selectAllRows],
-    (page, rowsPerPage, allRows) => {
-        const rows = allRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+    [selectPagination, selectAllRows],
+    (pagination, allRows) => {
+        const rows = allRows.slice(pagination.page * pagination.rowsPerPage, pagination.page * pagination.rowsPerPage + pagination.rowsPerPage);
         const rowsCount = allRows.length;
         return {rows, rowsCount};
     }
 );
 
-export const {setOperatorIsWorking, setRowsPerPage, setPage} = dataTableSlice.actions;
+export const {
+    setOperatorIsWorking,
+    setRowsPerPage,
+    setPage,
+    setOrder,
+    setSortBy,
+    setSearchTerm
+} = ordersTableSlice.actions;
 
-export default dataTableSlice.reducer;
+export default ordersTableSlice.reducer;
