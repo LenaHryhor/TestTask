@@ -7,10 +7,10 @@ export const theme: DefaultTheme = createTheme({
     },
     palette: {
         primary: {
-            main: '#1976d2',
+            main: '#F04259',
         },
         secondary: {
-            main: '#F04259',
+            main: '#cb5d68',
         },
         text: {
             primary: '#000',

@@ -1,18 +1,21 @@
-import {Avatar, Stack, useTheme} from "@mui/material";
+import {Avatar, Stack} from "@mui/material";
+import styled from "styled-components";
+
+const StyledStack = styled(Stack)`
+    white-space: nowrap;
+    align-items: baseline;
+`;
 
 interface Props {
     name: string;
     avatar: string;
 }
 
-export default function AvatarWithName({name, avatar}: Props) {
-    const theme = useTheme();
-
+export default function AvatarWithName({ name, avatar }: Props) {
     return (
-        <Stack direction="row">
-            <Avatar alt={name} src={avatar}
-                    sx={{marginRight: theme.spacing(3)}}/>
+        <StyledStack direction="row">
+            <Avatar alt={name} src={avatar} sx={{ mr: 3 }} />
             {name}
-        </Stack>
+        </StyledStack>
     );
 }

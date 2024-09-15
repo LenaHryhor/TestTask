@@ -1,7 +1,7 @@
 import React from 'react';
-import OperatorsPage from './pages/OperatorsPage';
+import OperatorsPage from './pages/OperatorsPage/OperatorsPage';
 import {theme} from "./styles/theme";
-import { ThemeProvider } from "styled-components";
+import {ThemeProvider} from "@mui/material";
 
 function App() {
     return (

@@ -1,10 +1,10 @@
 import {configureStore} from '@reduxjs/toolkit';
-import ordersTableReducer from "../features/operators/ordersTableSlice";
+import operatorsDataReducer from "../features/operators/operatorsDataSlice";
 
 export const store = configureStore({
     reducer:
         {
-            ordersTable: ordersTableReducer,
+            operatorsData: operatorsDataReducer,
         },
 });
 

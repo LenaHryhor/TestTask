@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function SearchBar({value, onSearch, ...props}: Props & Omit<TextFieldProps, "onChange" | "value">) {
-    const [inputValue, setInputValue] = useState(value);
+    const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
         const handler = setTimeout(() => {
@@ -23,5 +23,5 @@ export default function SearchBar({value, onSearch, ...props}: Props & Omit<Text
         setInputValue(e.target.value);
     };
 
-    return <TextField value={value} {...props} onChange={handleInputChange}/>
+    return <TextField value={inputValue} {...props} onChange={handleInputChange}/>
 };
