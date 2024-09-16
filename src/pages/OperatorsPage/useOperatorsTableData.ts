@@ -9,12 +9,12 @@ import {
 } from "../../features/operators/operatorsDataSlice";
 import {useMemo} from "react";
 import {getRowComparator, Row} from "../../components/OperatorsTable/types";
-import {Operator, OperatorAddon} from "../../features/operators/operatorsAPI";
 import {TableCellConfig} from "../../components/OperatorsTable/TableCellConfig/TableCellConfig";
 import {StringTableCellConfig} from "../../components/OperatorsTable/TableCellConfig/StringTableCellConfig";
 import {AvatarTableCellConfig} from "../../components/OperatorsTable/TableCellConfig/AvatarTableCellConfig";
 import {CheckboxTableCellConfig} from "../../components/OperatorsTable/TableCellConfig/CheckboxTableCellConfig";
 import {DateTableCellConfig} from "../../components/OperatorsTable/TableCellConfig/DateTableCellConfig";
+import {Operator, OperatorAddon} from "../../features/operators/types";
 
 export function useOperatorsTableData() {
     const operators = useAppSelector(selectOperators);

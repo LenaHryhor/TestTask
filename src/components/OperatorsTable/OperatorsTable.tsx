@@ -3,8 +3,8 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import OperatorsTableRow from "./OperatorsTableRow";
 import {BoldTableCell} from "./BoldTableCell";
 import * as React from "react";
-import {Sorting} from "../../features/operators/operatorsDataSlice";
 import {Column, Row} from "./types";
+import {Sorting} from "../../features/operators/types";
 
 
 interface Props {

@@ -1,5 +1,5 @@
 import {TableCellConfig} from "./TableCellConfig/TableCellConfig";
-import {Order} from "../../features/operators/operatorsDataSlice";
+import {Order} from "../../features/operators/types";
 
 export interface Column {
     id: number;

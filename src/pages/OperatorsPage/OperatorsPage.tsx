@@ -3,7 +3,7 @@ import {OperatorsTable} from "../../components/OperatorsTable/OperatorsTable";
 import React, {useCallback, useEffect} from "react";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {
-    loadData,
+    getOperators,
     selectLoadingStatus,
     setOrder,
     setPage,
@@ -21,7 +21,7 @@ export default function OperatorsPage() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(loadData());
+        dispatch(getOperators());
     }, [dispatch]);
 
     const loadingStatus = useAppSelector(selectLoadingStatus);

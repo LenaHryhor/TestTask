@@ -1,21 +1,8 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "../../app/store";
-import {fetchOperatorAddons, fetchOperators, Operator, OperatorAddon} from './operatorsAPI';
+import {Operator, OperatorAddon, Order, Pagination, Sorting} from "./types";
 
-export type Order = 'asc' | 'desc';
-
-export interface Pagination {
-    page: number;
-    rowsPerPage: number;
-    rowsPerPageOptions: number[];
-}
-
-export interface Sorting {
-    sortBy: number;
-    order: Order;
-}
-
-export interface OperatorsTableState {
+interface OperatorsDataState {
     operators: Operator [];
     operatorAddons: OperatorAddon [];
     status: 'idle' | 'loading' | 'failed';
@@ -24,7 +11,7 @@ export interface OperatorsTableState {
     searchTerm: string;
 }
 
-const initialState: OperatorsTableState = {
+const initialState: OperatorsDataState = {
     operators: [],
     operatorAddons: [],
     status: 'idle',
@@ -39,17 +26,6 @@ const initialState: OperatorsTableState = {
     },
     searchTerm: '',
 };
-
-export const loadData = createAsyncThunk(
-    'operators/fetchData',
-    async () => {
-        const [operators, operatorAddons] = await Promise.all([
-            fetchOperators(),
-            fetchOperatorAddons()
-        ]);
-        return {operators, operatorAddons};
-    }
-);
 
 export const operatorsDataSlice = createSlice({
     name: 'operatorsData',
@@ -74,23 +50,19 @@ export const operatorsDataSlice = createSlice({
         },
         setSearchTerm: (state, action: PayloadAction<string>) => {
             state.searchTerm = action.payload;
-        }
-    },
-    extraReducers: (builder) => {
-        builder
-            .addCase(loadData.pending, (state) => {
-                state.status = 'loading';
-            })
-            .addCase(loadData.fulfilled, (state, action) => {
-                state.status = 'idle';
-                state.operators = action.payload.operators;
-                state.operatorAddons = action.payload.operatorAddons;
-            })
-            .addCase(loadData.rejected, (state) => {
-                state.status = 'failed';
-            });
-    },
-
+        },
+        getOperators: (state) => {
+            state.status = 'loading';
+        },
+        getOperatorsSuccess: (state, action: PayloadAction<{operators: Operator[], operatorAddons: OperatorAddon[]}>) => {
+            state.status = 'idle';
+            state.operators = action.payload.operators;
+            state.operatorAddons = action.payload.operatorAddons;
+        },
+        getOperatorsError: (state) => {
+            state.status = 'failed';
+        },
+    }
 });
 
 export const selectOperators = (state: RootState) => state.operatorsData.operators;
@@ -108,7 +80,10 @@ export const {
     setPage,
     setOrder,
     setSortBy,
-    setSearchTerm
+    setSearchTerm,
+    getOperators,
+    getOperatorsSuccess,
+    getOperatorsError
 } = operatorsDataSlice.actions;
 
 export default operatorsDataSlice.reducer;
