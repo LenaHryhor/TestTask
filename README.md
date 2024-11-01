@@ -1,46 +1,59 @@
-# Getting Started with Create React App
+# Завдання
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+Відобразити табличку у відповідності до [макету](https://www.figma.com/team_invite/redeem/SGhTLN6oT59VSrbSzO83na) використовуючи бібліотеку [MUI](https://mui.com/material-ui/all-components/) та заповнити її даними які будуть отримані з АПІ. 
 
-## Available Scripts
+Таблиця складаєтся з визначених стовбчиків значення для яких отримуються з ендпоїнта *operator* та стовбчиків які необхідно вмержити з ендпоїнта *operatorAddon*. Значення для комірки *operatorAddon* взяти з поля *text*.
 
-In the project directory, you can run:
+Плюсом буде реалізація пагінації, фільтрації та сортування.
+
+### Бажаний вигляд таблички
+
+| #  | Користувач       | Працює          | Дата доєднання       | SMTP     | JBOD     | [fieldName] |
+|----|-------------------|-----------------|-----------------------|----------|----------|-------------|
+| 1  | `<Avatar/> + name` | `<Checkbox/>`  | 12.06.2007 17:59     | [text]   | [text]   | [text]      |
+| 2  | `<Avatar/> + name` | `<Checkbox/>`  | 12.06.2007 17:59     | [text]   | [text]   | [text]      |
+
+## API:
+```
+const API_TOKEN = '66a7f07b53c13f22a3d17fb1';
+const url = `https://API_TOKEN.mockapi.io/api/:endpoint`;
+```
+
+## Типи
+```
+interface Operator {
+	createdAt: string;
+	name: string;
+	avatar: string;
+	isWorking: boolean;
+	id: string;
+}[]
+
+interface OperatorAddon {
+	fieldName: string;
+	text: string;
+	isChecked: boolean;
+	id: string;
+}[]
+```
+
+## Команди для запуску
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Запускає додаток у режимі розробки. \
+Відкрийте [http://localhost:3000](http://localhost:3000) у браузері для перегляду.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Сторінка перезавантажиться після внесення змін у коді. \
+У консолі будуть відображені помилки або попередження.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Збирає додаток для продакшн у папку `build`. \
+Зібраний додаток оптимізований та готовий до розгортання.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Докладніше про розгортання читайте у [deployment](https://facebook.github.io/create-react-app/docs/deployment).
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Дізнайтеся більше в документації [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started) та документації [React documentation](https://reactjs.org/).
